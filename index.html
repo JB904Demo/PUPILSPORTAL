@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UNF WINGS — First Year Experience</title>
+<style>
+  :root{
+    --navy-900:#061633;
+    --navy-800:#0a1f44;
+    --navy-700:#123061;
+    --navy-600:#1c4080;
+    --navy-100:#e7ecf6;
+    --gray-700:#5b6472;
+    --gray-500:#8a94a6;
+    --gray-300:#c7ccd6;
+    --gray-100:#eef1f5;
+    --white:#ffffff;
+    --success:#2f8f5b;
+    --radius:16px;
+    --shadow: 0 10px 30px rgba(10,31,68,0.12);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: linear-gradient(180deg, var(--navy-100) 0%, var(--white) 320px);
+    color: var(--navy-900);
+    min-height:100vh;
+    padding-bottom:60px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px;}
+
+  /* Header */
+  header.hero{
+    background: linear-gradient(135deg, var(--navy-800) 0%, var(--navy-700) 55%, var(--navy-600) 100%);
+    color:var(--white);
+    padding:36px 0 30px;
+    box-shadow: var(--shadow);
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::after{
+    content:"";
+    position:absolute; right:-60px; top:-60px;
+    width:260px; height:260px; border-radius:50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+  }
+  .hero-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between;}
+  .brand{display:flex;align-items:center;gap:14px;}
+  .brand svg{flex:none;}
+  .brand-text h1{
+    margin:0; font-size:28px; letter-spacing:0.5px; font-weight:800;
+  }
+  .brand-text p{margin:2px 0 0; font-size:13px; color:var(--navy-100); letter-spacing:1.5px; text-transform:uppercase; font-weight:600;}
+  .reset-btn{
+    background:rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.35);
+    color:var(--white);
+    padding:9px 14px;
+    border-radius:10px;
+    font-size:13px;
+    cursor:pointer;
+    transition:background .15s ease;
+    white-space:nowrap;
+  }
+  .reset-btn:hover{background:rgba(255,255,255,0.22);}
+
+  .progress-block{margin-top:26px;}
+  .progress-label{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .progress-label .pct{font-size:40px;font-weight:800;line-height:1;}
+  .progress-label .tag{font-size:14px;color:var(--navy-100);font-weight:600;}
+  .progress-track{
+    background: rgba(255,255,255,0.18);
+    height:16px;
+    border-radius:999px;
+    overflow:hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.25);
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background: linear-gradient(90deg, #a9c1ee, #ffffff);
+    border-radius:999px;
+    transition: width .5s cubic-bezier(.4,0,.2,1);
+  }
+  .progress-sub{margin-top:8px;font-size:12.5px;color:var(--navy-100);}
+
+  /* Badges */
+  .badges{
+    display:flex; gap:12px; margin-top:22px; flex-wrap:wrap;
+  }
+  .badge{
+    display:flex; align-items:center; gap:8px;
+    background: rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.2);
+    padding:8px 12px 8px 8px;
+    border-radius:999px;
+    font-size:12.5px;
+    color: rgba(255,255,255,0.55);
+    transition: all .25s ease;
+  }
+  .badge .dot{
+    width:22px;height:22px;border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;
+  }
+  .badge.unlocked{
+    color:var(--white);
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.55);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  }
+  .badge.unlocked .dot{background:var(--white); color:var(--navy-800);}
+
+  /* Main content */
+  main{margin-top:28px;}
+  .page-body{
+    display:flex;
+    align-items:flex-start;
+    gap:24px;
+  }
+  .main-col{flex:1; min-width:0;}
+  .section-title{
+    font-size:15px; text-transform:uppercase; letter-spacing:1.2px;
+    color:var(--gray-700); font-weight:700; margin:0 0 14px 4px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
+    gap:16px;
+  }
+
+  /* Perpetual cast sidebar */
+  .cast-sidebar{
+    flex:none;
+    width:168px;
+    position:sticky;
+    top:20px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  .cast-heading{
+    font-size:12px; text-transform:uppercase; letter-spacing:1.2px;
+    color:var(--gray-500); font-weight:700; margin:0 0 2px 2px;
+  }
+  .cast-card{
+    background:var(--white);
+    border:1px solid var(--gray-100);
+    border-radius:14px;
+    padding:10px 10px 12px;
+    box-shadow: 0 2px 10px rgba(10,31,68,0.05);
+    text-align:center;
+  }
+  .cast-img-wrap{
+    height:120px;
+    display:flex; align-items:flex-end; justify-content:center;
+    margin-bottom:8px;
+  }
+  .cast-img-wrap img{
+    max-width:100%; max-height:100%; object-fit:contain;
+    filter: drop-shadow(0 4px 8px rgba(10,31,68,0.18));
+  }
+  .cast-name{font-size:12.5px; font-weight:800; color:var(--navy-900); line-height:1.25;}
+  .cast-tag{font-size:11px; color:var(--gray-500); font-weight:600; margin-top:2px; line-height:1.3;}
+  .cast-card.easter-egg{border-style:dashed; border-color:var(--gray-300); background:var(--gray-100);}
+  .cast-card.easter-egg .cast-tag{color:var(--gray-700);}
+  .cast-img-wrap.missing{
+    align-items:center; height:auto; min-height:60px;
+    font-size:11px; color:var(--gray-500); font-weight:600;
+    border:1px dashed var(--gray-300); border-radius:10px; padding:10px;
+  }
+  .cast-img-wrap img.hide-on-error{ }
+
+  @media (max-width: 860px){
+    .page-body{flex-direction:column;}
+    .cast-sidebar{
+      position:static;
+      width:100%;
+      flex-direction:row;
+      overflow-x:auto;
+      padding-bottom:4px;
+    }
+    .cast-card{flex:none; width:140px;}
+  }
+
+  .card{
+    background:var(--white);
+    border:1px solid var(--gray-100);
+    border-radius:var(--radius);
+    padding:16px 16px 14px;
+    box-shadow: 0 2px 10px rgba(10,31,68,0.05);
+    display:flex; flex-direction:column; gap:10px;
+    transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+  }
+  .card:hover{box-shadow: 0 8px 22px rgba(10,31,68,0.1); transform: translateY(-1px);}
+  .card.complete{border-color: var(--success); background: linear-gradient(180deg, #f3faf6, #ffffff);}
+
+  .card-top{display:flex; align-items:flex-start; gap:10px;}
+  .card-icon{
+    font-size:22px; width:38px; height:38px; flex:none;
+    background:var(--navy-100); border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .card.complete .card-icon{background:#dff3e7;}
+  .card-title{font-size:14.5px; font-weight:700; color:var(--navy-900); line-height:1.3;}
+  .card-title .req{display:block; font-size:11.5px; font-weight:600; color:var(--gray-500); margin-top:2px; text-transform:none; letter-spacing:0;}
+
+  /* checkbox style (single-count items) */
+  .check-row{
+    margin-top:auto;
+    display:flex; align-items:center; gap:10px; cursor:pointer;
+    user-select:none;
+  }
+  .checkbox{
+    width:26px;height:26px;border-radius:8px;
+    border:2px solid var(--gray-300);
+    display:flex;align-items:center;justify-content:center;
+    flex:none;
+    transition: all .15s ease;
+  }
+  .checkbox svg{opacity:0; transform:scale(.5); transition: all .15s ease;}
+  .check-row.checked .checkbox{background:var(--success); border-color:var(--success);}
+  .check-row.checked .checkbox svg{opacity:1; transform:scale(1);}
+  .check-row .status-text{font-size:12.5px; font-weight:600; color:var(--gray-700);}
+  .check-row.checked .status-text{color:var(--success);}
+
+  /* stepper style (multi-count items) */
+  .stepper{margin-top:auto;}
+  .stepper-row{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+  .step-btn{
+    width:30px;height:30px;border-radius:8px;
+    border:1px solid var(--gray-300);
+    background:var(--gray-100);
+    font-size:16px; font-weight:700; color:var(--navy-800);
+    cursor:pointer; display:flex;align-items:center;justify-content:center;
+    transition: background .15s ease;
+  }
+  .step-btn:hover{background:var(--navy-100);}
+  .step-btn:disabled{opacity:.35; cursor:default;}
+  .step-count{font-size:13px; font-weight:700; color:var(--navy-800); min-width:44px; text-align:center;}
+  .dots{display:flex; gap:5px; margin-top:8px;}
+  .pip{width:100%; height:6px; border-radius:4px; background:var(--gray-100); flex:1;}
+  .pip.filled{background:var(--success);}
+
+  /* Share section */
+  .share-section{
+    margin-top:36px;
+    background:var(--white);
+    border:1px solid var(--gray-100);
+    border-radius:var(--radius);
+    padding:24px;
+    display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap;
+    box-shadow: 0 2px 10px rgba(10,31,68,0.05);
+  }
+  .share-text h3{margin:0 0 4px; font-size:17px; color:var(--navy-900);}
+  .share-text p{margin:0; font-size:13.5px; color:var(--gray-700);}
+  .share-btn{
+    background:var(--navy-800); color:var(--white); border:none;
+    padding:12px 20px; border-radius:10px; font-size:14px; font-weight:700;
+    cursor:pointer; transition: background .15s ease;
+    white-space:nowrap;
+  }
+  .share-btn:hover{background:var(--navy-700);}
+
+  footer{
+    text-align:center; margin-top:34px; color:var(--gray-500); font-size:12px;
+  }
+
+  #shareCanvas{display:none;}
+
+  .toast{
+    position:fixed; left:50%; bottom:24px; transform:translate(-50%, 20px);
+    background:var(--navy-900); color:var(--white);
+    padding:12px 20px; border-radius:12px; font-size:13.5px; font-weight:600;
+    box-shadow: var(--shadow);
+    opacity:0; pointer-events:none;
+    transition: all .3s ease;
+    display:flex; align-items:center; gap:10px;
+    z-index:50;
+  }
+  .toast.show{opacity:1; transform:translate(-50%, 0);}
+
+  @media (max-width: 600px){
+    .brand-text h1{font-size:22px;}
+    .progress-label .pct{font-size:32px;}
+    .share-section{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+<script>
+  // Defined immediately so it exists before any <img onerror> can fire.
+  window.__castImgError = function(img){
+    var wrap = img.closest(".cast-img-wrap");
+    if(!wrap) return;
+    wrap.classList.add("missing");
+    wrap.textContent = "Character art coming soon";
+  };
+</script>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <div class="brand">
+        <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
+          <circle cx="23" cy="23" r="23" fill="rgba(255,255,255,0.12)"/>
+          <path d="M23 11c-1.5 3-1.5 6 0 9-4-2-9-2-13 1 3 2 6 2.5 9 2-3 2-5 5-5 9 3-2 5-5 6-8 1 3 3 6 6 8 0-4-2-7-5-9 3 .5 6 0 9-2-4-3-9-3-13-1 1.5-3 1.5-6 0-9z" fill="#ffffff"/>
+        </svg>
+        <div class="brand-text">
+          <h1>UNF WINGS</h1>
+          <p>First Year Experience &middot; Go Ospreys</p>
+        </div>
+      </div>
+      <button class="reset-btn" id="resetBtn">Reset progress</button>
+    </div>
+
+    <div class="progress-block">
+      <div class="progress-label">
+        <div class="pct" id="pctLabel">0%</div>
+        <div class="tag" id="pctTag">Just getting started</div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-sub" id="subLabel">0 of 34 checks complete across 17 objectives</div>
+    </div>
+
+    <div class="badges" id="badges"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="page-body">
+
+    <aside class="cast-sidebar" id="castSidebar">
+      <p class="cast-heading">Meet the Crew</p>
+
+      <div class="cast-card">
+        <div class="cast-img-wrap">
+          <img src="images/pupil-wade.png" alt="Pupil Wade, the UNF 100% Club legend" onerror="window.__castImgError(this)">
+        </div>
+        <div class="cast-name">Pupil Wade</div>
+        <div class="cast-tag">100% Club &middot; your guide to Full Wings</div>
+      </div>
+
+      <div class="cast-card">
+        <div class="cast-img-wrap">
+          <img src="images/pupil-papers-girl.png" alt="A UNF Osprey freshman holding her Pupil's Papers checklist" onerror="window.__castImgError(this)">
+        </div>
+        <div class="cast-name">Fellow Frosh</div>
+        <div class="cast-tag">Always double-checking her Pupil's Papers</div>
+      </div>
+
+      <div class="cast-card easter-egg">
+        <div class="cast-img-wrap">
+          <img src="images/edison-mascot.png" alt="A fuzzy Edison Community College mascot, visiting campus" onerror="window.__castImgError(this)">
+        </div>
+        <div class="cast-name">Mystery Mascot</div>
+        <div class="cast-tag">Wandered over from Edison CC &middot; don't tell UNF 🤫</div>
+      </div>
+    </aside>
+
+    <div class="main-col">
+      <p class="section-title">Frosh Objectives</p>
+      <div class="grid" id="grid"></div>
+
+      <div class="share-section">
+        <div class="share-text">
+          <h3>Earned some wings?</h3>
+          <p>Download a shareable card with your progress and badges.</p>
+        </div>
+        <button class="share-btn" id="shareBtn">Download my Wings Card</button>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>Built for UNF freshmen &middot; progress is saved in this browser only &middot; #SwoopLife</footer>
+</main>
+
+<canvas id="shareCanvas" width="1200" height="675"></canvas>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  const STORAGE_KEY = "unf-wings-fye-v1";
+
+  const ACTIVITIES = [
+    { id:"library",   icon:"📚", title:"Late Nights at the UNF Library", count:5 },
+    { id:"osprey_hall",icon:"🍽️", title:"Dine at Osprey Hall", count:3 },
+    { id:"qdoba",      icon:"🌯", title:"Qdoba at the Union", count:1 },
+    { id:"starbucks",  icon:"☕", title:"Campus Starbucks Run", count:5 },
+    { id:"scooter_campus", icon:"🛴", title:"Scooter Ride Around Campus", count:3 },
+    { id:"shuttle",    icon:"🚌", title:"UNF Shuttle from Town Center", count:3 },
+    { id:"fountains",  icon:"⛲", title:"Visit the Osprey Fountains", count:1 },
+    { id:"lecture_series", icon:"🎤", title:"Distinguished Voices Lecture", count:1 },
+    { id:"quad",       icon:"🌳", title:"Hang Out on the Quad", count:1 },
+    { id:"blue_book",  icon:"📘", title:"Purchase a Blue Book", count:1 },
+    { id:"sneak_lecture", icon:"🕵️", title:"Sneak Into a Lecture", count:1 },
+    { id:"unf_store",  icon:"🛍️", title:"Shop the UNF Store", count:1 },
+    { id:"boathouse",  icon:"⛵", title:"Dine at the Boathouse", count:3 },
+    { id:"carpenter",  icon:"📖", title:"Read a Novel in Carpenter Library", count:2 },
+    { id:"mocha",      icon:"🍵", title:"Mocha from the Osprey Café", count:1 },
+    { id:"chickfila",  icon:"🍗", title:"Chick-fil-A on Campus", count:1 },
+    { id:"melrose_publix", icon:"🛴", title:"Scooter to Melrose & Kernan Publix", count:1 },
+  ];
+
+  const TOTAL = ACTIVITIES.reduce((s,a)=>s+a.count,0);
+
+  const MILESTONES = [
+    { pct:25, key:"first_flight", label:"First Flight", icon:"🪶" },
+    { pct:50, key:"half_wings",   label:"Half Wings",   icon:"🦅" },
+    { pct:75, key:"wingspan",     label:"Wingspan",     icon:"🌤️" },
+    { pct:100,key:"full_wings",   label:"Full Wings",   icon:"🏆" },
+  ];
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        const parsed = JSON.parse(raw);
+        const state = {};
+        ACTIVITIES.forEach(a=>{
+          const v = parsed[a.id];
+          state[a.id] = (typeof v === "number") ? Math.max(0, Math.min(a.count, v)) : 0;
+        });
+        return state;
+      }
+    }catch(e){ /* ignore corrupt storage */ }
+    const state = {};
+    ACTIVITIES.forEach(a=> state[a.id] = 0);
+    return state;
+  }
+
+  let state = loadState();
+  let unlockedMilestones = {};
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY + "-milestones");
+    unlockedMilestones = raw ? JSON.parse(raw) : {};
+  }catch(e){ unlockedMilestones = {}; }
+
+  function saveState(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+  }
+  function saveMilestones(){
+    try{ localStorage.setItem(STORAGE_KEY + "-milestones", JSON.stringify(unlockedMilestones)); }catch(e){}
+  }
+
+  function totalDone(){
+    return ACTIVITIES.reduce((s,a)=> s + state[a.id], 0);
+  }
+  function pctDone(){
+    return Math.round((totalDone() / TOTAL) * 100);
+  }
+
+  const grid = document.getElementById("grid");
+  const pctLabel = document.getElementById("pctLabel");
+  const pctTag = document.getElementById("pctTag");
+  const subLabel = document.getElementById("subLabel");
+  const progressFill = document.getElementById("progressFill");
+  const badgesEl = document.getElementById("badges");
+  const toast = document.getElementById("toast");
+
+  function tagForPct(p){
+    if(p>=100) return "Full wings earned!";
+    if(p>=75) return "Almost there — keep soaring";
+    if(p>=50) return "Halfway to full wings";
+    if(p>=25) return "Off to a great start";
+    if(p>0) return "Just getting started";
+    return "Let's get started";
+  }
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add("show");
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(()=> toast.classList.remove("show"), 2600);
+  }
+
+  function renderBadges(){
+    badgesEl.innerHTML = "";
+    const p = pctDone();
+    MILESTONES.forEach(m=>{
+      const unlocked = p >= m.pct;
+      if(unlocked && !unlockedMilestones[m.key]){
+        unlockedMilestones[m.key] = true;
+        saveMilestones();
+        showToast(m.icon + "  Badge unlocked: " + m.label);
+      }
+      const div = document.createElement("div");
+      div.className = "badge" + (unlocked ? " unlocked" : "");
+      div.innerHTML = '<span class="dot">' + m.icon + '</span><span>' + m.label + ' &middot; ' + m.pct + '%</span>';
+      badgesEl.appendChild(div);
+    });
+  }
+
+  function renderProgress(){
+    const p = pctDone();
+    pctLabel.textContent = p + "%";
+    pctTag.textContent = tagForPct(p);
+    progressFill.style.width = p + "%";
+    subLabel.textContent = totalDone() + " of " + TOTAL + " checks complete across " + ACTIVITIES.length + " objectives";
+    renderBadges();
+  }
+
+  function renderCard(a){
+    const card = document.createElement("div");
+    const done = state[a.id];
+    const isComplete = done >= a.count;
+    card.className = "card" + (isComplete ? " complete" : "");
+    card.dataset.id = a.id;
+
+    let interactive;
+    if(a.count === 1){
+      interactive = document.createElement("div");
+      interactive.className = "check-row" + (isComplete ? " checked" : "");
+      interactive.innerHTML =
+        '<div class="checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6" stroke="white" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+        '<div class="status-text">' + (isComplete ? "Completed" : "Mark as done") + '</div>';
+      interactive.addEventListener("click", ()=>{
+        state[a.id] = state[a.id] >= 1 ? 0 : 1;
+        saveState();
+        rerenderCard(a);
+        renderProgress();
+      });
+    } else {
+      interactive = document.createElement("div");
+      interactive.className = "stepper";
+      const row = document.createElement("div");
+      row.className = "stepper-row";
+
+      const minus = document.createElement("button");
+      minus.className = "step-btn";
+      minus.textContent = "–";
+      minus.disabled = done <= 0;
+      minus.addEventListener("click", ()=>{
+        state[a.id] = Math.max(0, state[a.id]-1);
+        saveState();
+        rerenderCard(a);
+        renderProgress();
+      });
+
+      const countEl = document.createElement("div");
+      countEl.className = "step-count";
+      countEl.textContent = done + " / " + a.count;
+
+      const plus = document.createElement("button");
+      plus.className = "step-btn";
+      plus.textContent = "+";
+      plus.disabled = done >= a.count;
+      plus.addEventListener("click", ()=>{
+        state[a.id] = Math.min(a.count, state[a.id]+1);
+        saveState();
+        rerenderCard(a);
+        renderProgress();
+      });
+
+      row.appendChild(minus);
+      row.appendChild(countEl);
+      row.appendChild(plus);
+
+      const dots = document.createElement("div");
+      dots.className = "dots";
+      for(let i=0;i<a.count;i++){
+        const pip = document.createElement("div");
+        pip.className = "pip" + (i < done ? " filled" : "");
+        dots.appendChild(pip);
+      }
+
+      interactive.appendChild(row);
+      interactive.appendChild(dots);
+    }
+
+    const reqText = a.count === 1 ? "" : ('<span class="req">Do this ' + a.count + ' times</span>');
+
+    card.innerHTML =
+      '<div class="card-top">' +
+        '<div class="card-icon">' + a.icon + '</div>' +
+        '<div class="card-title">' + a.title + reqText + '</div>' +
+      '</div>';
+    card.appendChild(interactive);
+    return card;
+  }
+
+  function rerenderCard(a){
+    const old = grid.querySelector('[data-id="' + a.id + '"]');
+    const fresh = renderCard(a);
+    grid.replaceChild(fresh, old);
+  }
+
+  function renderAll(){
+    grid.innerHTML = "";
+    ACTIVITIES.forEach(a=> grid.appendChild(renderCard(a)));
+    renderProgress();
+  }
+
+  document.getElementById("resetBtn").addEventListener("click", ()=>{
+    if(confirm("Reset all progress? This can't be undone.")){
+      ACTIVITIES.forEach(a=> state[a.id] = 0);
+      unlockedMilestones = {};
+      saveState();
+      saveMilestones();
+      renderAll();
+      showToast("Progress reset");
+    }
+  });
+
+  // ---- Shareable results card ----
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight){
+    const words = text.split(" ");
+    let line = "";
+    let yy = y;
+    for(let n=0;n<words.length;n++){
+      const testLine = line + words[n] + " ";
+      if(ctx.measureText(testLine).width > maxWidth && n > 0){
+        ctx.fillText(line, x, yy);
+        line = words[n] + " ";
+        yy += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+    ctx.fillText(line, x, yy);
+    return yy;
+  }
+
+  function drawShareCard(){
+    const canvas = document.getElementById("shareCanvas");
+    const ctx = canvas.getContext("2d");
+    const W = canvas.width, H = canvas.height;
+
+    // background gradient
+    const grad = ctx.createLinearGradient(0,0,W,H);
+    grad.addColorStop(0, "#0a1f44");
+    grad.addColorStop(0.55, "#123061");
+    grad.addColorStop(1, "#1c4080");
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,W,H);
+
+    // soft circle decoration
+    ctx.fillStyle = "rgba(255,255,255,0.06)";
+    ctx.beginPath(); ctx.arc(W-80, 60, 220, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(60, H-40, 160, 0, Math.PI*2); ctx.fill();
+
+    // header
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "800 46px -apple-system, Arial, sans-serif";
+    ctx.fillText("UNF WINGS", 60, 90);
+    ctx.font = "600 18px -apple-system, Arial, sans-serif";
+    ctx.fillStyle = "rgba(255,255,255,0.75)";
+    ctx.fillText("FIRST YEAR EXPERIENCE  ·  GO OSPREYS", 60, 122);
+
+    // big percent
+    const p = pctDone();
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "800 150px -apple-system, Arial, sans-serif";
+    ctx.fillText(p + "%", 60, 320);
+    ctx.font = "600 22px -apple-system, Arial, sans-serif";
+    ctx.fillStyle = "rgba(255,255,255,0.85)";
+    ctx.fillText(totalDone() + " of " + TOTAL + " checks complete across " + ACTIVITIES.length + " objectives", 60, 360);
+
+    // progress bar
+    const barX = 60, barY = 390, barW = W - 120, barH = 22;
+    ctx.fillStyle = "rgba(255,255,255,0.18)";
+    roundRect(ctx, barX, barY, barW, barH, 11); ctx.fill();
+    ctx.fillStyle = "#ffffff";
+    roundRect(ctx, barX, barY, Math.max(barH, barW * (p/100)), barH, 11); ctx.fill();
+
+    // badges earned
+    ctx.font = "700 20px -apple-system, Arial, sans-serif";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText("Badges earned", 60, 450);
+
+    let bx = 60;
+    const by = 470;
+    MILESTONES.forEach(m=>{
+      const unlocked = p >= m.pct;
+      ctx.fillStyle = unlocked ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.12)";
+      roundRect(ctx, bx, by, 250, 64, 14); ctx.fill();
+      ctx.font = "28px -apple-system, Arial, sans-serif";
+      ctx.fillStyle = unlocked ? "#0a1f44" : "rgba(255,255,255,0.4)";
+      ctx.fillText(m.icon, bx + 16, by + 42);
+      ctx.font = "700 16px -apple-system, Arial, sans-serif";
+      ctx.fillStyle = unlocked ? "#0a1f44" : "rgba(255,255,255,0.5)";
+      ctx.fillText(m.label, bx + 58, by + 30);
+      ctx.font = "600 13px -apple-system, Arial, sans-serif";
+      ctx.fillStyle = unlocked ? "#123061" : "rgba(255,255,255,0.35)";
+      ctx.fillText(unlocked ? "Unlocked" : m.pct + "% required", bx + 58, by + 50);
+      bx += 270;
+    });
+
+    // footer
+    ctx.font = "600 14px -apple-system, Arial, sans-serif";
+    ctx.fillStyle = "rgba(255,255,255,0.65)";
+    const d = new Date();
+    ctx.fillText("#SwoopLife  ·  Generated " + d.toLocaleDateString(), 60, H - 30);
+
+    return canvas.toDataURL("image/png");
+  }
+
+  function roundRect(ctx, x, y, w, h, r){
+    ctx.beginPath();
+    ctx.moveTo(x+r, y);
+    ctx.arcTo(x+w, y, x+w, y+h, r);
+    ctx.arcTo(x+w, y+h, x, y+h, r);
+    ctx.arcTo(x, y+h, x, y, r);
+    ctx.arcTo(x, y, x+w, y, r);
+    ctx.closePath();
+  }
+
+  document.getElementById("shareBtn").addEventListener("click", ()=>{
+    const dataUrl = drawShareCard();
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = "unf-wings-fye-card.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    showToast("Wings card downloaded 🎉");
+  });
+
+  renderAll();
+})();
+</script>
+
+</body>
+</html>
